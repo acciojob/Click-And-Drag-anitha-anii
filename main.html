@@ -36,6 +36,26 @@
 
 <script>
 //Your code goes here 
+	function drag() {
+      let dragged = null;
+
+      let items = document.querySelectorAll('.item');
+      items.forEach(function(item) {
+        item.addEventListener('click', function() {
+          dragged = this;
+        });
+        item.addEventListener('dragover', function(event) {
+          event.preventDefault();
+          if (dragged && dragged !== this) {
+            this.innerHTML = dragged.innerHTML;
+            dragged.innerHTML = "";
+            dragged = null;
+          }
+        });
+      });
+    }
+	
+	drag();
 </script>
 
   </body>
