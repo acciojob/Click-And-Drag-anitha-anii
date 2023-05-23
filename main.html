@@ -33,10 +33,10 @@
     <div class="item item24">24</div>
     <div class="item item25">25</div>
   </div>
-
 <script>
 //Your code goes here 
-	function drag() {
+
+    function drag() {
       let dragged = null;
 
       let items = document.querySelectorAll('.item');
@@ -54,8 +54,25 @@
         });
       });
     }
-	
-	drag();
+
+    drag();
+  </script>
+
+  <script>
+    // Cypress test code
+    describe('Click and Drag Test', () => {
+      it('should drag and trigger scroll', () => {
+        cy.get('.items')
+          .trigger('mousedown', { which: 1, pageX: 493, pageY: 391 })
+          .trigger('mousemove', { which: 1, pageX: 271, pageY: 391 })
+          .trigger('mouseup');
+
+        cy.get('.items').should(($items) => {
+          expect($items[0].scrollLeft).to.be.greaterThan(0);
+        });
+      });
+    });
+ 
 </script>
 
   </body>
