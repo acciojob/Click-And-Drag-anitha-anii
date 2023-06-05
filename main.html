@@ -35,46 +35,40 @@
   </div>
 <script>
 //Your code goes here 
-	const itemsContainer = document.querySelector('.items');
-    
-    // Store the initial mouse position and container scroll position
-    let initialMousePositionX = 0;
-    let initialScrollLeft = 0;
+	const slider= document.querySelector('.items');
+       let isDown = false;
+         let startX;
+	   let ScrollLeft;
 
-    // Flag to track if an item is being dragged
-    let isDragging = false;
+slider.addEventListener('mousedown', (e) => {
+  isDown=true;
+	slider.classList.add('active');
+	startX= e.pageX-slider.offsetLeft;
+	scrollLeft =slider.scrollLeft;
+});	
+	
 
-    // Event listener for mouse down event
-    itemsContainer.addEventListener('mousedown', (event) => {
-      // Set the flag to indicate dragging has started
-      isDragging = true;
+	slider.addEventListener('mouseleave', () => {
+      isDown=false;
+		slider.classList.remove('active');
+		
+});	
 
-      // Store the initial mouse position and container scroll position
-      initialMousePositionX = event.pageX;
-      initialScrollLeft = itemsContainer.scrollLeft;
+	
+	slider.addEventListener('mouseup', () => {
+      isDown=false;
+		slider.classList.remove('active');
+});	
 
-      // Add CSS class to indicate dragging
-      itemsContainer.classList.add('dragging');
-    });
-
-    // Event listener for mouse up event
-    itemsContainer.addEventListener('mouseup', () => {
-      // Reset the flag and remove CSS class
-      isDragging = false;
-      itemsContainer.classList.remove('dragging');
-    });
-
-    // Event listener for mouse move event
-    itemsContainer.addEventListener('mousemove', (event) => {
-      if (!isDragging) return;
-
-      // Calculate the distance the mouse has moved
-      const distance = event.pageX - initialMousePositionX;
-
-      // Update the scroll position of the container
-      itemsContainer.scrollLeft = initialScrollLeft - distance;
-    });
-
+	
+	slider.addEventListener('mousemove', (e) => {
+		if (!isDown) return;
+		e.preventDefault();
+		let x=e.pageX-slider.offsetLeft;
+		let walk = (x-startX)*3;
+		slider.scrollLeft =scrollLeft-walk;
+       	
+	
 </script>
 
   </body>
