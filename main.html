@@ -35,44 +35,46 @@
   </div>
 <script>
 //Your code goes here 
+	const itemsContainer = document.querySelector('.items');
+    
+    // Store the initial mouse position and container scroll position
+    let initialMousePositionX = 0;
+    let initialScrollLeft = 0;
 
-    function drag() {
-      let dragged = null;
+    // Flag to track if an item is being dragged
+    let isDragging = false;
 
-      let items = document.querySelectorAll('.item');
-      items.forEach(function(item) {
-        item.addEventListener('click', function() {
-          dragged = this;
-        });
-        item.addEventListener('dragover', function(event) {
-          event.preventDefault();
-          if (dragged && dragged !== this) {
-            this.innerHTML = dragged.innerHTML;
-            dragged.innerHTML = "";
-            dragged = null;
-          }
-        });
-      });
-    }
+    // Event listener for mouse down event
+    itemsContainer.addEventListener('mousedown', (event) => {
+      // Set the flag to indicate dragging has started
+      isDragging = true;
 
-    drag();
-  </script>
+      // Store the initial mouse position and container scroll position
+      initialMousePositionX = event.pageX;
+      initialScrollLeft = itemsContainer.scrollLeft;
 
-  <script>
-    // Cypress test code
-    describe('Click and Drag Test', () => {
-      it('should drag and trigger scroll', () => {
-        cy.get('.items')
-          .trigger('mousedown', { which: 1, pageX: 493, pageY: 391 })
-          .trigger('mousemove', { which: 1, pageX: 271, pageY: 391 })
-          .trigger('mouseup');
-
-        cy.get('.items').should(($items) => {
-          expect($items[0].scrollLeft).to.be.greaterThan(0);
-        });
-      });
+      // Add CSS class to indicate dragging
+      itemsContainer.classList.add('dragging');
     });
- 
+
+    // Event listener for mouse up event
+    itemsContainer.addEventListener('mouseup', () => {
+      // Reset the flag and remove CSS class
+      isDragging = false;
+      itemsContainer.classList.remove('dragging');
+    });
+
+    // Event listener for mouse move event
+    itemsContainer.addEventListener('mousemove', (event) => {
+      if (!isDragging) return;
+
+      // Calculate the distance the mouse has moved
+      const distance = event.pageX - initialMousePositionX;
+
+      // Update the scroll position of the container
+      itemsContainer.scrollLeft = initialScrollLeft - distance;
+    });
+
 </script>
 
   </body>
