@@ -36,6 +36,7 @@
   </div>
 
 <script>
+
   const slider = document.querySelector('.items');
   let isDown = false;
   let startX;
@@ -59,13 +60,15 @@
   });
 
   slider.addEventListener('mousemove', (e) => {
-    if (!isDown) return;  // stop the fn from running
+    if (!isDown) return;
     e.preventDefault();
     const x = e.pageX - slider.offsetLeft;
     const walk = (x - startX) * 3;
     slider.scrollLeft = scrollLeft - walk;
   });
 
+
+	
 </script>
 
   </body>
